@@ -62,13 +62,17 @@
             });
 
             $('#enviarMensaje').click(()=>{
-                var mensaje= $('#mensaje').val();
-                socket.emit('msjNuevo', mensaje); //enviamos el mensaje a la funcion msjNuevo
-                document.getElementById('message').reset();
+                if($("#mensaje").val().length<=0){
+                    alert("Escribe un mensaje para enviar");
+                }else{
+                    var mensaje= $('#mensaje').val();
+                    socket.emit('msjNuevo', mensaje); //enviamos el mensaje a la funcion msjNuevo
+                }                
             })
             socket.on('mensaje',(data)=>{//funcion para concatenar el mensaje en el chat
                 var nuevoMensaje= '<b>'+data.usuario+' dice: </b>'+ data.mensaje;
                 $('#chatbox').append(nuevoMensaje+'</br>');
+                $('#mensaje').val(""); //Es igual a document.getElementById('message').reset();
             })
         });
     </script>
